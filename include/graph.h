@@ -1,7 +1,7 @@
-#ifndef GRAPG_H
+#ifndef GRAPH_H
 #define GRAPH_H
 
-#include "lib.h"
+#include "macro.h"
 
 // --- Adatszerkezetek --- //
 typedef struct

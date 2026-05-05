@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <stdio.h>
 
 Graph *graph_create(){
     Graph *g = calloc(1, sizeof(Graph));
