@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include "macro.h"
+#include <stdio.h>
 
 // --- Adatszerkezetek --- //
 typedef struct
