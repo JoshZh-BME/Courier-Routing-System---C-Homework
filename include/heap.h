@@ -1,8 +1,6 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include "lib.h"
-
 // --- Adatszerkezetek --- //
 typedef struct
 {
