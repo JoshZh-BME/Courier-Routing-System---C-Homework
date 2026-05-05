@@ -1,0 +1,22 @@
+Helyszínök száma: 8
+0 Raktár
+1 Főtér
+2 Nagy-Kikötő
+3 Keleti-Csarnok
+4 Nyugati-Park
+5 Déli-Pályaudvar
+6 Reptér
+7 Egyetem
+Élek:
+0 1 5
+0 5 10
+1 2 8
+1 3 6
+1 4 12
+2 6 15
+3 6 9
+3 7 7
+4 7 4
+5 4 3
+6 7 11
+Vége
