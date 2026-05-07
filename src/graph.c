@@ -112,7 +112,8 @@ void graph_remove_edge(Graph *g, int src, int dest){
 
 int graph_find(Graph *g, const char *name){
     for (int i = 0; i < g->locations; i++){
-        if (strcmp(g->name[i], name) == 0) return i;
+        if (strcmp(g->name[i], name) == 0)
+            return i;
     }
     return -1;
 }

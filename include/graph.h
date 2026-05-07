@@ -10,12 +10,12 @@ typedef struct AdjNode
     int dest_vertex;
     int distance_weight;
     struct AdjNode *next;
-} AdjNode;
+} AdjNode; // Adott csúcshoz tartozó élek listája
 
 typedef struct
 {
-    int locations;
-    char name[MAX_LOCATION][MAX_NAME_LEN];
+    int locations; /* Helyszinek száma */
+    char name[MAX_LOCATION][MAX_NAME_LEN]; /* Itt a MAX_LOCATION tömbindex továbbá helyszin kiválasztásra használjuk */
     AdjNode *adj[MAX_LOCATION];
 } Graph; // Gráf - Éllista reprezentációja
 
