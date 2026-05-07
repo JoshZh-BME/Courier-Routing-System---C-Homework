@@ -5,8 +5,7 @@
 static void clear_input()
 {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 static int read_int(const char *prompt)
