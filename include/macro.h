@@ -3,7 +3,7 @@
 
 #include <limits.h>
 
-// --- Konstansok, Alapértékek beállitása demo teszt esethez --- //
+// --- Konstansok, alapértékek beállítása demo tesztesethez --- //
 #define MAX_LOCATION 100
 #define MAX_NAME_LEN 64
 #define INF INT_MAX

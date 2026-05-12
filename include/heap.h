@@ -1,21 +1,16 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-// --- Adatszerkezetek --- //
-typedef struct
-{
+typedef struct {
     int vertex;
     int distance;
-} HeapNode; // Mininális bináris kupac elemei
+} HeapNode;
 
-typedef struct
-{
+typedef struct {
     int size;
     int capacity;
     HeapNode *data;
-} MinHeap; // Minimális bináris kupac, priority queue-hoz
-
-// --- Függvénydeklarációk --- //
+} MinHeap;
 MinHeap *heap_create(int capacity);
 void heap_free(MinHeap *h);
 void heap_push(MinHeap *h, int vertex, int dist);

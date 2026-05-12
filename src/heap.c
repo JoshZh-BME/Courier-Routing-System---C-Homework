@@ -1,16 +1,18 @@
 #include "heap.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 MinHeap *heap_create(int capacity)
 {
     MinHeap *h = malloc(sizeof(MinHeap));
-    if(!h){
+    if (!h) {
         perror("heap_create");
         exit(1);
     }
     h->size = 0;
     h->capacity = capacity;
     h->data = malloc(sizeof(HeapNode) * capacity);
-    if(!h->data){
+    if (!h->data) {
         perror("heap_create data");
         exit(1);
     }
@@ -39,7 +41,7 @@ static void sift_up(MinHeap *h, int i)
 {
     while (i > 0) {
         int parent = (i - 1) / 2;
-        if (h->data[parent].distance < h->data[i].distance) {
+        if (h->data[parent].distance > h->data[i].distance) {
             heap_swap(&h->data[parent], &h->data[i]);
             i = parent;
         } else {
@@ -50,17 +52,17 @@ static void sift_up(MinHeap *h, int i)
 
 static void sift_down(MinHeap *h, int i)
 {
-    while(1){
+    while (1) {
         int smallest = i;
         int left = 2 * i + 1;
         int right = 2 * i + 2;
-        if(left < h->size && h->data[left].distance < h->data[smallest].distance){
+        if (left < h->size && h->data[left].distance < h->data[smallest].distance) {
             smallest = left;
         }
-        if(right < h->size && h->data[right].distance < h->data[smallest].distance){
+        if (right < h->size && h->data[right].distance < h->data[smallest].distance) {
             smallest = right;
         }
-        if(smallest == i) break;
+        if (smallest == i) break;
         heap_swap(&h->data[i], &h->data[smallest]);
         i = smallest;
     }
@@ -71,7 +73,7 @@ void heap_push(MinHeap *h, int vertex, int dist)
     if (h->size == h->capacity) {
         h->capacity *= 2;
         h->data = realloc(h->data, sizeof(HeapNode) * h->capacity);
-        if(!h->data){
+        if (!h->data) {
             perror("heap_push realloc");
             exit(1);
         }
@@ -85,10 +87,8 @@ HeapNode heap_pop(MinHeap *h)
 {
     HeapNode top = h->data[0];
     h->data[0] = h->data[--h->size];
-    if( h->size > 0) {
+    if (h->size > 0) {
         sift_down(h, 0);
     }
     return top;
 }
-
-

@@ -1,19 +1,23 @@
 #include "graph.h"
+#include <stdlib.h>
+#include <string.h>
 
-Graph *graph_create(){
+Graph *graph_create(void)
+{
     Graph *g = calloc(1, sizeof(Graph));
-    if (!g){
+    if (!g) {
         perror("graph_create");
         exit(1);
     }
     return g;
 }
 
-void graph_free(Graph *g){
+void graph_free(Graph *g)
+{
     if (!g) return;
-    for (int i = 0; i < g->locations; i++){
+    for (int i = 0; i < g->locations; i++) {
         AdjNode *curr = g->adj[i];
-        while (curr){
+        while (curr) {
             AdjNode *temp = curr->next;
             free(curr);
             curr = temp;
@@ -22,7 +26,8 @@ void graph_free(Graph *g){
     free(g);
 }
 
-int graph_add_location(Graph *g, const char *name){
+int graph_add_location(Graph *g, const char *name)
+{
     if (g->locations >= MAX_LOCATION) return -1;
     int id = g->locations++;
     strncpy(g->name[id], name, MAX_NAME_LEN - 1);
@@ -31,31 +36,33 @@ int graph_add_location(Graph *g, const char *name){
     return id;
 }
 
-int graph_remove_location(Graph *g, int id){
+int graph_remove_location(Graph *g, int id)
+{
     if (id < 0 || id >= g->locations) return -1;
+
     AdjNode *curr = g->adj[id];
-    while (curr){
+    while (curr) {
         AdjNode *temp = curr->next;
         free(curr);
         curr = temp;
     }
-    for (int i = 0; i < g->locations; i++){
+
+    for (int i = 0; i < g->locations; i++) {
         if (i == id) continue;
         AdjNode **pp = &g->adj[i];
-        while (*pp){
-            if ((*pp)->dest_vertex == id){
+        while (*pp) {
+            if ((*pp)->dest_vertex == id) {
                 AdjNode *temp = (*pp)->next;
                 free(*pp);
                 *pp = temp;
-            }
-            else
-            {
+            } else {
                 if ((*pp)->dest_vertex > id) (*pp)->dest_vertex--;
                 pp = &(*pp)->next;
             }
         }
     }
-    for(int i = id; i < g->locations - 1; i++){
+
+    for (int i = id; i < g->locations - 1; i++) {
         strncpy(g->name[i], g->name[i + 1], MAX_NAME_LEN - 1);
         g->adj[i] = g->adj[i + 1];
     }
@@ -63,9 +70,10 @@ int graph_remove_location(Graph *g, int id){
     return 0;
 }
 
-static AdjNode *new_adj_node(int dest, int weight){
+static AdjNode *new_adj_node(int dest, int weight)
+{
     AdjNode *node = malloc(sizeof(AdjNode));
-    if (!node){
+    if (!node) {
         perror("new_adj_node");
         exit(1);
     }
@@ -75,7 +83,8 @@ static AdjNode *new_adj_node(int dest, int weight){
     return node;
 }
 
-void graph_add_edge(Graph *g, int src, int dest, int weight){
+void graph_add_edge(Graph *g, int src, int dest, int weight)
+{
     AdjNode *node1 = new_adj_node(dest, weight);
     node1->next = g->adj[src];
     g->adj[src] = node1;
@@ -85,48 +94,45 @@ void graph_add_edge(Graph *g, int src, int dest, int weight){
     g->adj[dest] = node2;
 }
 
-void graph_remove_edge(Graph *g, int src, int dest){
+static void remove_directed_edge(Graph *g, int src, int dest)
+{
     AdjNode **pp = &g->adj[src];
-    while (*pp){
-        if ((*pp)->dest_vertex == dest){
+    while (*pp) {
+        if ((*pp)->dest_vertex == dest) {
             AdjNode *temp = (*pp)->next;
             free(*pp);
             *pp = temp;
-            break;
-        } else {
-            pp = &(*pp)->next;
+            return;
         }
-    }
-    pp = &g->adj[dest];
-    while (*pp){
-        if ((*pp)->dest_vertex == src){
-            AdjNode *temp = (*pp)->next;
-            free(*pp);
-            *pp = temp;
-            break;
-        } else {
-            pp = &(*pp)->next;
-        }
+        pp = &(*pp)->next;
     }
 }
 
-int graph_find(Graph *g, const char *name){
-    for (int i = 0; i < g->locations; i++){
+void graph_remove_edge(Graph *g, int src, int dest)
+{
+    remove_directed_edge(g, src, dest);
+    remove_directed_edge(g, dest, src);
+}
+
+int graph_find(Graph *g, const char *name)
+{
+    for (int i = 0; i < g->locations; i++) {
         if (strcmp(g->name[i], name) == 0) return i;
     }
     return -1;
 }
 
-void graph_print(const Graph *g){
-    printf("\n=== Éllista ===\n");
-    for (int i = 0; i < g->locations; i++){
+void graph_print(const Graph *g)
+{
+    printf("\n=== Ellista ===\n");
+    for (int i = 0; i < g->locations; i++) {
         printf("  [%2d] %-20s ->", i, g->name[i]);
         AdjNode *curr = g->adj[i];
-        if(!curr){
+        if (!curr) {
             printf(" (no edges)\n");
             continue;
         }
-        while (curr){
+        while (curr) {
             printf("%s(%d)", g->name[curr->dest_vertex], curr->distance_weight);
             if (curr->next) printf(" ->");
             curr = curr->next;

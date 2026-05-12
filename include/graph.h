@@ -4,22 +4,17 @@
 #include "macro.h"
 #include <stdio.h>
 
-// --- Adatszerkezetek --- //
-typedef struct AdjNode
-{
+typedef struct AdjNode {
     int dest_vertex;
     int distance_weight;
     struct AdjNode *next;
 } AdjNode;
 
-typedef struct
-{
+typedef struct {
     int locations;
     char name[MAX_LOCATION][MAX_NAME_LEN];
     AdjNode *adj[MAX_LOCATION];
-} Graph; // Gráf - Éllista reprezentációja
-
-// --- Függvénydeklarációk --- //
+} Graph;
 Graph *graph_create();
 void graph_free(Graph *g);
 int graph_add_location(Graph *g, const char *name);
