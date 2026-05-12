@@ -2,6 +2,8 @@
 #define MACRO_H
 
 #include <limits.h>
+#include <stdlib.h>
+#include <string.h>
 
 // --- Konstansok, Alapértékek beállitása demo teszt esethez --- //
 #define MAX_LOCATION 100
